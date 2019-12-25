@@ -19,7 +19,7 @@ func NewLeapMotion(drone *tello.Driver, leap *leap.Driver) *LeapMotion {
 
 // TakeOff the drone with the
 func (l *LeapMotion) TakeOff() {
-
+	l.drone.TakeOff()
 }
 
 func (l *LeapMotion) Up()    {}

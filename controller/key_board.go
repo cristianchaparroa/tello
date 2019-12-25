@@ -9,6 +9,17 @@ import (
 	"gobot.io/x/gobot/platforms/keyboard"
 )
 
+const (
+	// DefaultShift is the shift value in case that there is not a configuration.
+	DefaultShift = 20
+)
+
+// KeyConfig contains the basic data to setup the command in the drone
+type KeyConfig struct {
+	// Shift is the unit of desplacement used in different commands.
+	Shift int
+}
+
 // KeyBoard is in charge to handle the keyboards commands
 // and interact with drone
 type KeyBoard struct {
@@ -26,47 +37,34 @@ func NewKeyBoard(drone *tello.Driver, keys *keyboard.Driver) *KeyBoard {
 // wants to land the drone
 func (c *KeyBoard) Run() {
 
-	fmt.Println("<-- Run ")
-
 	c.keys.On(keyboard.Key, func(data interface{}) {
 		key := data.(keyboard.KeyEvent)
 		switch key.Key {
 		case keyboard.A:
-			fmt.Println(key.Char)
-			c.drone.Clockwise(-25)
+			c.Left()
 		case keyboard.D:
-			fmt.Println(key.Char)
-			c.drone.Clockwise(25)
+			c.Right()
 		case keyboard.W:
-			fmt.Println(key.Char)
-			c.drone.Up(20)
+			c.Up()
 		case keyboard.S:
-			fmt.Println(key.Char)
-			c.drone.Down(20)
+			c.Down()
 		case keyboard.Q:
-			fmt.Println(key.Char)
 			c.drone.Land()
 		case keyboard.P:
-			fmt.Println(key.Char)
 			c.drone.TakeOff()
 		case keyboard.ArrowUp:
-			fmt.Println(key.Char)
-			c.drone.Forward(20)
+			c.Forward()
 		case keyboard.ArrowDown:
 			fmt.Println(key.Char)
-			c.drone.Backward(20)
+			c.Backward()
 		case keyboard.ArrowLeft:
-			fmt.Println(key.Char)
-			c.drone.Left(20)
+			c.Left()
 		case keyboard.ArrowRight:
-			fmt.Println(key.Char)
-			c.drone.Right(20)
+			c.Right()
 		case keyboard.Escape:
 			resetDronePostion(c.drone)
 		}
-
 	})
-
 }
 
 func resetDronePostion(drone *tello.Driver) {
@@ -81,34 +79,42 @@ func resetDronePostion(drone *tello.Driver) {
 
 // Up moves up the drone
 func (c *KeyBoard) Up() {
-
+	c.drone.Up(DefaultShift)
 }
 
 // Down moves down the drone
 func (c *KeyBoard) Down() {
-
+	c.drone.Down(DefaultShift)
 }
 
 // Right moves right the drone
 func (c *KeyBoard) Right() {
-
+	c.drone.Clockwise(DefaultShift)
 }
 
 // Left moves to left the drone
 func (c *KeyBoard) Left() {
-
+	c.drone.Left(DefaultShift)
 }
 
 // TakeOff start the drone and go up it
 func (c *KeyBoard) TakeOff() {
-	fmt.Println("<-- TakeOff")
 	c.drone.TakeOff()
 }
 
 // Land the drone
 func (c *KeyBoard) Land() {
-	fmt.Println("<-- Land")
 	gobot.After(5*time.Second, func() {
 		c.drone.Land()
 	})
+}
+
+// Forward drone
+func (c *KeyBoard) Forward() {
+	c.drone.Forward(DefaultShift)
+}
+
+// Backward drone
+func (c *KeyBoard) Backward() {
+	c.drone.Backward(DefaultShift)
 }
