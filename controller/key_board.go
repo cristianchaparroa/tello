@@ -41,9 +41,9 @@ func (c *KeyBoard) Run() {
 		key := data.(keyboard.KeyEvent)
 		switch key.Key {
 		case keyboard.A:
-			c.Left()
+			c.TurnLeft()
 		case keyboard.D:
-			c.Right()
+			c.TurnRight()
 		case keyboard.W:
 			c.Up()
 		case keyboard.S:
@@ -87,14 +87,34 @@ func (c *KeyBoard) Down() {
 	c.drone.Down(DefaultShift)
 }
 
+// TurnRight rotates the drone to the right side.
+func (c *KeyBoard) TurnRight() {
+	c.drone.Clockwise(DefaultShift)
+}
+
+// TurnLeft rotates the drone to the left side
+func (c *KeyBoard) TurnLeft() {
+	c.drone.Clockwise(-DefaultShift)
+}
+
 // Right moves right the drone
 func (c *KeyBoard) Right() {
-	c.drone.Clockwise(DefaultShift)
+	c.drone.Right(DefaultShift)
 }
 
 // Left moves to left the drone
 func (c *KeyBoard) Left() {
 	c.drone.Left(DefaultShift)
+}
+
+// Forward drone
+func (c *KeyBoard) Forward() {
+	c.drone.Forward(DefaultShift)
+}
+
+// Backward drone
+func (c *KeyBoard) Backward() {
+	c.drone.Backward(DefaultShift)
 }
 
 // TakeOff start the drone and go up it
@@ -107,14 +127,4 @@ func (c *KeyBoard) Land() {
 	gobot.After(5*time.Second, func() {
 		c.drone.Land()
 	})
-}
-
-// Forward drone
-func (c *KeyBoard) Forward() {
-	c.drone.Forward(DefaultShift)
-}
-
-// Backward drone
-func (c *KeyBoard) Backward() {
-	c.drone.Backward(DefaultShift)
 }
