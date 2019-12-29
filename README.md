@@ -19,18 +19,18 @@ You can handle the drone using the default keyboard  configuration. The followin
 #### Example
 
 ```go
+package main
+
 import (
-	"tello/controller"
+	"tello/controller/keyboard"
 
 	"gobot.io/x/gobot"
 	tello "gobot.io/x/gobot/platforms/dji/tello"
-	"gobot.io/x/gobot/platforms/keyboard"
 )
 
 func main() {
 	drone := tello.NewDriver("8888")
-	keys := keyboard.NewDriver()
-	c := controller.NewKeyBoard(drone, keys)
+	c := keyboard.NewController(drone)
 
 	work := func() {
 		c.Run()
@@ -38,10 +38,11 @@ func main() {
 
 	robot := gobot.NewRobot("tello",
 		[]gobot.Connection{},
-		[]gobot.Device{keys, drone},
+		[]gobot.Device{c.GetKeyBoard(), drone},
 		work,
 	)
 
 	robot.Start()
 }
+
 ```

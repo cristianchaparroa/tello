@@ -1,4 +1,4 @@
-package controller
+package keyboard
 
 import (
 	"fmt"
@@ -23,21 +23,26 @@ type KeyConfig struct {
 // KeyBoard is in charge to handle the keyboards commands
 // and interact with drone
 type KeyBoard struct {
-	drone *tello.Driver
-	keys  *keyboard.Driver
+	drone    *tello.Driver
+	keyboard *keyboard.Driver
 }
 
-// NewKeyBoard generates a pointer to NewKeyBoard
-func NewKeyBoard(drone *tello.Driver, keys *keyboard.Driver) *KeyBoard {
-	fmt.Println(drone.Name())
-	return &KeyBoard{drone: drone, keys: keys}
+// NewController generates a pointer to NewKeyBoard
+func NewController(drone *tello.Driver) *KeyBoard {
+	k := keyboard.NewDriver()
+	return &KeyBoard{drone: drone, keyboard: k}
 }
 
-// Run function create the infinity loop to read all keys until the user
+// GetKeyBoard returns the reference of keyboard
+func (c *KeyBoard) GetKeyBoard() *keyboard.Driver {
+	return c.keyboard
+}
+
+// Run function create the infinity loop to read all keyboard until the user
 // wants to land the drone
 func (c *KeyBoard) Run() {
 
-	c.keys.On(keyboard.Key, func(data interface{}) {
+	c.keyboard.On(keyboard.Key, func(data interface{}) {
 		key := data.(keyboard.KeyEvent)
 		switch key.Key {
 		case keyboard.A:
