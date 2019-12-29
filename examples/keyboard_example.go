@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"tello/controller"
 
 	"gobot.io/x/gobot"
@@ -14,12 +13,7 @@ func main() {
 	keys := keyboard.NewDriver()
 	c := controller.NewKeyBoard(drone, keys)
 
-	var flightData *tello.FlightData
 	work := func() {
-		drone.On(tello.FlightDataEvent, func(data interface{}) {
-			flightData = data.(*tello.FlightData)
-			fmt.Println("Height:", flightData.Height)
-		})
 		c.Run()
 	}
 
