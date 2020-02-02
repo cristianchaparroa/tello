@@ -1,9 +1,13 @@
 package leap
 
 const (
-	LeapStopStatus = "stop"
+	// StopStatus The circle gesture is finished.
+	StopStatus = "stop"
 
-	LeapStartStatus = "start"
+	// StartStatus the circle gesture has just started. The movement has progressed far enough
+	// for the recognizer to classify it as a circle.
+	StartStatus = "start"
 
-	LeapUpdateStatus = "update"
+	// UpdateStatus The circle gesture is continuing.
+	UpdateStatus = "update"
 )
