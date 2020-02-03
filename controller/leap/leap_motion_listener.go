@@ -1,6 +1,10 @@
 package leap
 
-import "gobot.io/x/gobot/platforms/leap"
+import (
+	"fmt"
+
+	"gobot.io/x/gobot/platforms/leap"
+)
 
 const (
 	TurnThreshold        = 0.2
@@ -14,25 +18,28 @@ const (
 )
 
 type leapMotionListener struct {
+	c     *Controller
+	event EventListener
 }
 
 // NewleapMotionListener listen the events related to leap device.
-func NewleapMotionListener() MotionListener {
-	return &leapMotionListener{}
+func NewleapMotionListener(c *Controller) MotionListener {
+	listener := &leapMotionListener{c: c}
+	listener.build()
+	return listener
 }
 
-func (l *leapMotionListener) ProcessGestures(g leap.Gesture) {
-
+func (l *leapMotionListener) build() {
+	takeOff := NewTakeOffListener(l.c)
+	land := NewLandListener(l.c)
+	land.SetNext(takeOff)
+	l.event = land
 }
 
-func (l *leapMotionListener) IsTakeOffEvent(gesture leap.Gesture) bool {
+func (l *leapMotionListener) ProcessGestures(gesture leap.Gesture) {
 
-	if GestureCircle != gesture.Type {
-		return false
-	}
+	fmt.Println("--> ProcessGestures")
+	l.event.Process(gesture)
 
-	isClockWise := isClockWise(gesture)
-	isTwoRounds := isTwoRounds(gesture)
-
-	return isClockWise && isTwoRounds
+	fmt.Println("<-- ProcessGestures")
 }

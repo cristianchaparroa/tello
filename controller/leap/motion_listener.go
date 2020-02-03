@@ -7,7 +7,4 @@ type MotionListener interface {
 
 	// ProcessGestures handle the gestures trigered by leap motion device
 	ProcessGestures(g leap.Gesture)
-
-	// IsTakeOffEvent it determines if is taoke off
-	IsTakeOffEvent(gesture leap.Gesture) bool
 }

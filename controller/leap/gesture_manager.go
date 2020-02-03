@@ -2,6 +2,11 @@ package leap
 
 import "gobot.io/x/gobot/platforms/leap"
 
+// IsCircleGesture determines if the gesture is a circle
+func IsCircleGesture(gesture leap.Gesture) bool {
+	return GestureCircle == gesture.Type
+}
+
 // isClockWise verifies if gestures is clockwise.
 func isClockWise(gesture leap.Gesture) bool {
 	normal := gesture.Normal
