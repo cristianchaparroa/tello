@@ -1,4 +1,4 @@
-package frame
+package pointable
 
 import "gobot.io/x/gobot/platforms/leap"
 

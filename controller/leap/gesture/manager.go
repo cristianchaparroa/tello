@@ -7,8 +7,8 @@ import (
 
 // GestureManager handle the gesture trigered by leap motion device
 type GestureManager interface {
-	// ProcessGestures handle the gesture trigered by leap motion device
-	ProcessGestures(g leap.Gesture)
+	// Process handle the gesture trigered by leap motion device
+	Process(g leap.Gesture)
 }
 
 
@@ -31,6 +31,6 @@ func (l *leapGestureManager) build() {
 	l.event = land
 }
 
-func (l *leapGestureManager) ProcessGestures(gesture leap.Gesture) {
+func (l *leapGestureManager) Process(gesture leap.Gesture) {
 	l.event.Process(gesture)
 }

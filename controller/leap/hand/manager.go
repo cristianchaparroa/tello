@@ -7,8 +7,8 @@ import (
 
 // Manager handle the hand triggered by leap motion device
 type Manager interface {
-	// ProcessGestures handle the gesture triggered by leap motion device
-	ProcessHands(h leap.Hand)
+	// Process handle the gesture triggered by leap motion device
+	Process(h leap.Hand)
 }
 
 
@@ -31,7 +31,7 @@ func (l *leapHandManager) build() {
 	l.event = forward
 }
 
-func (l *leapHandManager) ProcessHands(hand leap.Hand) {
+func (l *leapHandManager) Process(hand leap.Hand) {
 	l.event.Process(hand)
 }
 
