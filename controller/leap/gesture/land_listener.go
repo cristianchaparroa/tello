@@ -1,8 +1,8 @@
-package leap
+package gesture
 
 import (
 	"fmt"
-
+	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
 )
 
@@ -10,11 +10,11 @@ import (
 // to land events
 type LandListener struct {
 	next EventListener
-	c    *Controller
+	c    *tello.Driver
 }
 
 // NewLandListener generates a pointer to LandListener
-func NewLandListener(c *Controller) *LandListener {
+func NewLandListener(c *tello.Driver) *LandListener {
 	return &LandListener{c: c}
 }
 
@@ -39,11 +39,10 @@ func (l *LandListener) SetNext(next EventListener) {
 	l.next = next
 }
 
-// IsLandEvent determins if is  land event.
+// IsLandEvent determines if should to land the drone.
 func (l *LandListener) IsLandEvent(gesture leap.Gesture) bool {
-	isCircleGeture := IsCircleGesture(gesture)
+	isCircleGesture := IsCircleGesture(gesture)
 	isCounterClockWise := !isClockWise(gesture)
 	isTwoRounds := isTwoRounds(gesture)
-
-	return isCircleGeture && isCounterClockWise && isTwoRounds
+	return isCircleGesture && isCounterClockWise && isTwoRounds
 }

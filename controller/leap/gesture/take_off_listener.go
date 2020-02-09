@@ -1,7 +1,8 @@
-package leap
+package gesture
 
 import (
 	"fmt"
+	"gobot.io/x/gobot/platforms/dji/tello"
 
 	"gobot.io/x/gobot/platforms/leap"
 )
@@ -10,11 +11,11 @@ import (
 // to take off events
 type TakeOffListener struct {
 	next EventListener
-	c    *Controller
+	c    *tello.Driver
 }
 
 // NewTakeOffListener generates a pointer to TakeOffListener
-func NewTakeOffListener(c *Controller) *TakeOffListener {
+func NewTakeOffListener(c *tello.Driver) *TakeOffListener {
 	return &TakeOffListener{c: c}
 }
 
@@ -38,11 +39,10 @@ func (l *TakeOffListener) SetNext(next EventListener) {
 	l.next = next
 }
 
-// IsTakeOffEvent determins if is  take off event.
+// IsTakeOffEvent determines if should take off the drone.
 func (l *TakeOffListener) IsTakeOffEvent(gesture leap.Gesture) bool {
-	isCircleGeture := IsCircleGesture(gesture)
+	isCircleGesture := IsCircleGesture(gesture)
 	isClockWise := isClockWise(gesture)
 	isTwoRounds := isTwoRounds(gesture)
-
-	return isCircleGeture && isClockWise && isTwoRounds
+	return isCircleGesture && isClockWise && isTwoRounds
 }

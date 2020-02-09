@@ -1,4 +1,4 @@
-package leap
+package gesture
 
 const (
 	// XAxis is the position of a vector to retrieve the position of X

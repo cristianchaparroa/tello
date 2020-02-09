@@ -1,4 +1,4 @@
-package leap
+package gesture
 
 const (
 	// StopStatus The circle gesture is finished.

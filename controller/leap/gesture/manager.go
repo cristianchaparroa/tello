@@ -1,16 +1,24 @@
-package leap
+package gesture
 
 import (
+	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
 )
 
+// GestureManager handle the gesture trigered by leap motion device
+type GestureManager interface {
+	// ProcessGestures handle the gesture trigered by leap motion device
+	ProcessGestures(g leap.Gesture)
+}
+
+
 type leapGestureManager struct {
-	c     *Controller
+	c     *tello.Driver
 	event EventListener
 }
 
-// NewleapGestureManager listen the events related to leap device.
-func NewleapGestureManager(c *Controller) GestureManager {
+// NewManager listen the events related to leap device.
+func NewManager(c *tello.Driver) GestureManager {
 	listener := &leapGestureManager{c: c}
 	listener.build()
 	return listener
