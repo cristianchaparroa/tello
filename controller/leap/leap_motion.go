@@ -1,8 +1,16 @@
 package leap
 
 import (
+	"time"
+
+	"gobot.io/x/gobot"
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
+)
+
+const (
+	// DefaultShift is the shift value in case that there is not a configuration.
+	DefaultShift = 20
 )
 
 // Controller is a Controller in charge to handle the
@@ -28,8 +36,8 @@ func (c *Controller) Run() {
 
 		gesture := data.(leap.Gesture)
 		c.logger.ShowGesture(gesture)
-		listener := NewleapMotionListener(c)
-		listener.ProcessGestures(gesture)
+		manager := NewleapGestureManager(c)
+		manager.ProcessGestures(gesture)
 	})
 
 }
@@ -41,17 +49,27 @@ func (c *Controller) TakeOff() {
 
 // Up  shift the drone up
 func (c *Controller) Up() {
-
+	c.drone.Up(DefaultShift)
 }
 
 // Down  shift the drone down
-func (c *Controller) Down() {}
+func (c *Controller) Down() {
+	c.drone.Down(DefaultShift)
+}
 
 // Right shift the drone right
-func (c *Controller) Right() {}
+func (c *Controller) Right() {
+	c.drone.Right(DefaultShift)
+}
 
 // Left  shift the drone  left.
-func (c *Controller) Left() {}
+func (c *Controller) Left() {
+	c.drone.Left(DefaultShift)
+}
 
 // Land the drone
-func (c *Controller) Land() {}
+func (c *Controller) Land() {
+	gobot.After(5*time.Second, func() {
+		c.drone.Land()
+	})
+}
