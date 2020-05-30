@@ -12,7 +12,7 @@ type RotateRightListener struct {
 }
 
 // NewRotateRightListener generates a pointer to RotateRightListener
-func NewRotateRightListener(c   *tello.Driver) *RotateRightListener {
+func NewRotateRightListener(c *tello.Driver) *RotateRightListener {
 	return &RotateRightListener{c: c}
 }
 

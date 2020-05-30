@@ -11,7 +11,6 @@ type GestureManager interface {
 	Process(g leap.Gesture)
 }
 
-
 type leapGestureManager struct {
 	c     *tello.Driver
 	event EventListener

@@ -40,11 +40,10 @@ func (l *ForwardListener) isForwardEvent(hand leap.Hand) bool {
 	return isThreshold && isUpToZero
 }
 
-
 func (l *ForwardListener) moveForward(hand leap.Hand) {
 	zAxis := hand.PalmNormal[2]
 	fmt.Println("-> Move forward")
-	value := math.Round(zAxis * 10 - DirectionThreshold) * DirectionSpeedFactor
+	value := math.Round(zAxis*10-DirectionThreshold) * DirectionSpeedFactor
 	l.c.Forward(int(value))
 }
 

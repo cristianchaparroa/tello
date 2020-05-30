@@ -25,7 +25,7 @@ func NewLogger() Logger {
 
 // ShowGesture show the information related to gesture
 func (l *logger) ShowGesture(g leap.Gesture) {
-	message := fmt.Sprintf( "Gesture -> Type:%s, State:%s, IsInProggress:%v, Normal:%v", g.Type, g.State, g.Progress, g.Normal)
+	message := fmt.Sprintf("Gesture -> Type:%s, State:%s, IsInProggress:%v, Normal:%v", g.Type, g.State, g.Progress, g.Normal)
 	fmt.Println(message)
 }
 

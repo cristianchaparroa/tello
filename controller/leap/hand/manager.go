@@ -11,7 +11,6 @@ type Manager interface {
 	Process(h leap.Hand)
 }
 
-
 type leapHandManager struct {
 	c     *tello.Driver
 	event EventListener
@@ -25,13 +24,20 @@ func NewManager(c *tello.Driver) Manager {
 }
 
 func (l *leapHandManager) build() {
-	forward := NewForwardListener(l.c)
+	/*forward := NewForwardListener(l.c)
+
 	backward := NewBackwardListener(l.c)
 	forward.SetNext(backward)
-	l.event = forward
+	*/
+	right := NewRightListener(l.c)
+	//	backward.SetNext(right)
+
+	left := NewLeftListener(l.c)
+	right.SetNext(left)
+
+	l.event = left
 }
 
 func (l *leapHandManager) Process(hand leap.Hand) {
 	l.event.Process(hand)
 }
-

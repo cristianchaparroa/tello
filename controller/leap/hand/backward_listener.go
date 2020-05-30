@@ -41,7 +41,7 @@ func (l *BackwardListener) isBackwardEvent(hand leap.Hand) bool {
 func (l *BackwardListener) moveBackward(hand leap.Hand) {
 	fmt.Println("--> Move backward")
 	zAxis := hand.PalmNormal[2]
-	value := math.Round(zAxis * 10 - DirectionThreshold) * DirectionSpeedFactor
+	value := math.Round(zAxis*10-DirectionThreshold) * DirectionSpeedFactor
 	l.c.Backward(int(value))
 }
 

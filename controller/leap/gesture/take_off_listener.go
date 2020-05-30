@@ -2,6 +2,7 @@ package gesture
 
 import (
 	"fmt"
+
 	"gobot.io/x/gobot/platforms/dji/tello"
 
 	"gobot.io/x/gobot/platforms/leap"
@@ -21,6 +22,7 @@ func NewTakeOffListener(c *tello.Driver) *TakeOffListener {
 
 // Process verifies if is take off event and trigger it.
 func (l *TakeOffListener) Process(gesture leap.Gesture) {
+
 	if l.IsTakeOffEvent(gesture) {
 		fmt.Println("IsTakeOff")
 		l.c.TakeOff()
@@ -44,5 +46,6 @@ func (l *TakeOffListener) IsTakeOffEvent(gesture leap.Gesture) bool {
 	isCircleGesture := IsCircleGesture(gesture)
 	isClockWise := isClockWise(gesture)
 	isTwoRounds := isTwoRounds(gesture)
-	return isCircleGesture && isClockWise && isTwoRounds
+	fmt.Println(isCircleGesture, isClockWise, isTwoRounds)
+	return isCircleGesture && isClockWise
 }

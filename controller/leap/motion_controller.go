@@ -1,13 +1,11 @@
 package leap
 
 import (
-	"fmt"
+	"tello/controller/leap/gesture"
+	"tello/controller/leap/utils"
+
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
-	"tello/controller/leap/pointable"
-	"tello/controller/leap/gesture"
-	"tello/controller/leap/hand"
-	"tello/controller/leap/utils"
 )
 
 const (
@@ -22,8 +20,8 @@ type MotionController struct {
 	logger utils.Logger
 }
 
-// NewController generates pointer to MotionController
-func NewController(drone *tello.Driver, leap *leap.Driver) *MotionController {
+// NewLeapMotion generates pointer to MotionController
+func NewLeapMotion(drone *tello.Driver, leap *leap.Driver) *MotionController {
 	logger := utils.NewLogger()
 	c := &MotionController{drone: drone, leap: leap, logger: logger}
 	return c
@@ -35,9 +33,10 @@ func (c *MotionController) Run() {
 
 	drone := c.drone
 	gestureManager := gesture.NewManager(drone)
-	handManager := hand.NewManager(drone)
+	/*
+		handManager := hand.NewManager(drone)
 
-	currentHand := leap.Hand{}
+		currentHand := leap.Hand{}*/
 
 	c.leap.On(leap.GestureEvent, func(data interface{}) {
 		g := data.(leap.Gesture)
@@ -45,15 +44,17 @@ func (c *MotionController) Run() {
 		gestureManager.Process(g)
 	})
 
-	c.leap.On(leap.HandEvent, func(data interface{}) {
-		currentHand = data.(leap.Hand)
-		c.logger.ShowHand(currentHand)
-		handManager.Process(currentHand)
-	})
-
-	c.leap.On(leap.MessageEvent, func(data interface{}) {
-		f := data.(leap.Frame)
-		isOpenHand := pointable.IsOpenHand(f.Pointables)
-		fmt.Printf("Is open hand:%v \n", isOpenHand)
-	})
+	/*
+		c.leap.On(leap.HandEvent, func(data interface{}) {
+			currentHand = data.(leap.Hand)
+			//c.logger.ShowHand(currentHand)
+			handManager.Process(currentHand)
+		}) */
+	/*
+		c.leap.On(leap.MessageEvent, func(data interface{}) {
+			f := data.(leap.Frame)
+			isOpenHand := pointable.IsOpenHand(f.Pointables)
+			fmt.Printf("Is open hand:%v \n", isOpenHand)
+		})
+	*/
 }

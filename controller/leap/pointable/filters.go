@@ -13,5 +13,5 @@ func IsOpenHand(ps []leap.Pointable) bool {
 		}
 	}
 
-	return  counter > 0
+	return counter > 0
 }
