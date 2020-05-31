@@ -1,4 +1,4 @@
-package main
+package examples
 
 import (
 	"tello/controller/keyboard"
@@ -7,7 +7,7 @@ import (
 	tello "gobot.io/x/gobot/platforms/dji/tello"
 )
 
-func main() {
+func keyboardExample() {
 	drone := tello.NewDriver("8888")
 	c := keyboard.NewController(drone)
 

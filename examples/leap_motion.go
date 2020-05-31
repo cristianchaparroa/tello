@@ -1,4 +1,4 @@
-package main
+package examples
 
 import (
 	controller "tello/controller/leap"
@@ -9,7 +9,7 @@ import (
 	"gobot.io/x/gobot/platforms/dji/tello"
 )
 
-func main() {
+func leapNotionExample() {
 	leapMotionAdaptor := leap.NewAdaptor("127.0.0.1:6437")
 	l := leap.NewDriver(leapMotionAdaptor)
 	drone := tello.NewDriver("8888")

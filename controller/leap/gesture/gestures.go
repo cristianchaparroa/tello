@@ -1,7 +1,14 @@
 package gesture
 
 import (
+	"fmt"
+
 	"gobot.io/x/gobot/platforms/leap"
+)
+
+const (
+	// CircleThreshold is the threshold to determine that the gesture is two rounds
+	CircleThreshold = 1
 )
 
 // IsCircleGesture determines if the gesture is a circle
@@ -24,5 +31,6 @@ func isClockWise(gesture leap.Gesture) bool {
 
 // isTwoRounds determines if the gesture is two rounds
 func isTwoRounds(gesture leap.Gesture) bool {
+	fmt.Printf("Progress:%v\n", gesture.Progress)
 	return gesture.Progress > CircleThreshold
 }

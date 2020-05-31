@@ -44,13 +44,19 @@ func main() {
 
 	robot.Start()
 }
-
 ```
 
 ### Leap Motion controller
 
-You can use handle the drone using the Leap motion controller
+You can handle the drone using the Leap motion controller, the following are the gestures to handle it:
 
+| Gesture on Leap motion  | Drone command  |
+|---|---|
+|  Clock wise | Take of  |
+| Counter clock wise | Land |
+
+
+You can use the as the following example:
 
 
 ```go
@@ -86,5 +92,4 @@ func main() {
 
 	defer robot.Stop()
 }
-
 ```

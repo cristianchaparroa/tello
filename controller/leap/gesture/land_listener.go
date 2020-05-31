@@ -2,6 +2,7 @@ package gesture
 
 import (
 	"fmt"
+
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
 )
@@ -44,5 +45,6 @@ func (l *LandListener) IsLandEvent(gesture leap.Gesture) bool {
 	isCircleGesture := IsCircleGesture(gesture)
 	isCounterClockWise := !isClockWise(gesture)
 	isTwoRounds := isTwoRounds(gesture)
+	fmt.Printf("IsCircle:%v, isCounterCW:%v, isTwoRounds:%v \n", isCircleGesture, isCounterClockWise, isTwoRounds)
 	return isCircleGesture && isCounterClockWise && isTwoRounds
 }

@@ -46,6 +46,7 @@ func (l *TakeOffListener) IsTakeOffEvent(gesture leap.Gesture) bool {
 	isCircleGesture := IsCircleGesture(gesture)
 	isClockWise := isClockWise(gesture)
 	isTwoRounds := isTwoRounds(gesture)
-	fmt.Println(isCircleGesture, isClockWise, isTwoRounds)
-	return isCircleGesture && isClockWise
+
+	fmt.Printf("IsCircle:%v, isClowWise:%v, isTwoRounds:%v \n", isCircleGesture, isClockWise, isTwoRounds)
+	return isCircleGesture && isClockWise && isTwoRounds
 }
