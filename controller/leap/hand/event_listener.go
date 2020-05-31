@@ -9,8 +9,6 @@ const (
 	DirectionSpeedFactor = 0.05
 	UpControlThreshold   = 50
 	UpSpeedFactor        = 0.01
-	// CircleThreshold is the threshold to determine that the gesture is two rounds
-	CircleThreshold = 1.5
 )
 
 // EventListener set the methods to process

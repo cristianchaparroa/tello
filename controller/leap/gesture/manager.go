@@ -5,8 +5,8 @@ import (
 	"gobot.io/x/gobot/platforms/leap"
 )
 
-// GestureManager handle the gesture trigered by leap motion device
-type GestureManager interface {
+// Manager handle the gesture trigered by leap motion device
+type Manager interface {
 	// Process handle the gesture trigered by leap motion device
 	Process(g leap.Gesture)
 }
@@ -17,7 +17,7 @@ type leapGestureManager struct {
 }
 
 // NewManager listen the events related to leap device.
-func NewManager(c *tello.Driver) GestureManager {
+func NewManager(c *tello.Driver) Manager {
 	listener := &leapGestureManager{c: c}
 	listener.build()
 	return listener

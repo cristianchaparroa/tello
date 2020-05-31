@@ -2,6 +2,7 @@ package leap
 
 import (
 	"tello/controller/leap/gesture"
+	"tello/controller/leap/hand"
 	"tello/controller/leap/utils"
 
 	"gobot.io/x/gobot/platforms/dji/tello"
@@ -33,10 +34,9 @@ func (c *MotionController) Run() {
 
 	drone := c.drone
 	gestureManager := gesture.NewManager(drone)
-	/*
-		handManager := hand.NewManager(drone)
 
-		currentHand := leap.Hand{}*/
+	handManager := hand.NewManager(drone)
+	currentHand := leap.Hand{}
 
 	c.leap.On(leap.GestureEvent, func(data interface{}) {
 		g := data.(leap.Gesture)
@@ -44,12 +44,13 @@ func (c *MotionController) Run() {
 		gestureManager.Process(g)
 	})
 
-	/*
-		c.leap.On(leap.HandEvent, func(data interface{}) {
-			currentHand = data.(leap.Hand)
-			//c.logger.ShowHand(currentHand)
-			handManager.Process(currentHand)
-		}) */
+	// TODO: if is a gesture processed should not execute the
+	// hand event.
+	c.leap.On(leap.HandEvent, func(data interface{}) {
+		currentHand = data.(leap.Hand)
+		c.logger.ShowHand(currentHand)
+		handManager.Process(currentHand)
+	})
 	/*
 		c.leap.On(leap.MessageEvent, func(data interface{}) {
 			f := data.(leap.Frame)

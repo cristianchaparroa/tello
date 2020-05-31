@@ -32,10 +32,10 @@ func (l *leapHandManager) build() {
 	right := NewRightListener(l.c)
 	//	backward.SetNext(right)
 
-	left := NewLeftListener(l.c)
-	right.SetNext(left)
+	//left := NewLeftListener(l.c)
+	//right.SetNext(left)
 
-	l.event = left
+	l.event = right
 }
 
 func (l *leapHandManager) Process(hand leap.Hand) {
