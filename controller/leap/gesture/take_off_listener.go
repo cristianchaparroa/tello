@@ -2,6 +2,8 @@ package gesture
 
 import (
 	"fmt"
+	log "github.com/sirupsen/logrus"
+	"tello/controller/leap/core"
 
 	"gobot.io/x/gobot/platforms/dji/tello"
 
@@ -43,10 +45,16 @@ func (l *TakeOffListener) SetNext(next EventListener) {
 
 // IsTakeOffEvent determines if should take off the drone.
 func (l *TakeOffListener) IsTakeOffEvent(gesture leap.Gesture) bool {
-	isCircleGesture := IsCircleGesture(gesture)
-	isClockWise := isClockWise(gesture)
-	isTwoRounds := isTwoRounds(gesture)
 
-	fmt.Printf("IsCircle:%v, isClowWise:%v, isTwoRounds:%v \n", isCircleGesture, isClockWise, isTwoRounds)
+	isCircleGesture := core.IsCircleGesture(gesture)
+	isClockWise := core.IsClockWise(gesture)
+	isTwoRounds := core.IsTwoRounds(gesture)
+
+	log.WithFields(log.Fields{
+		"is_circle":     isCircleGesture,
+		"is_clock_wise": isClockWise,
+		"is_two_rounds": isTwoRounds,
+	}).Info("is_take_off_event")
+
 	return isCircleGesture && isClockWise && isTwoRounds
 }

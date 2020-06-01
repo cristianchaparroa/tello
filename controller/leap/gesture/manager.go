@@ -5,9 +5,9 @@ import (
 	"gobot.io/x/gobot/platforms/leap"
 )
 
-// Manager handle the gesture trigered by leap motion device
+// Manager handle the gesture triggered by leap motion device
 type Manager interface {
-	// Process handle the gesture trigered by leap motion device
+	// Process handle the gesture triggered by leap motion device
 	Process(g leap.Gesture)
 }
 

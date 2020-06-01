@@ -1,8 +1,6 @@
-package gesture
+package core
 
 import (
-	"fmt"
-
 	"gobot.io/x/gobot/platforms/leap"
 )
 
@@ -16,8 +14,8 @@ func IsCircleGesture(gesture leap.Gesture) bool {
 	return Circle == gesture.Type
 }
 
-// isClockWise verifies if gesture is clockwise.
-func isClockWise(gesture leap.Gesture) bool {
+// IsClockWise verifies if gesture is clockwise.
+func IsClockWise(gesture leap.Gesture) bool {
 	normal := gesture.Normal
 	isNormal := len(normal) == 3
 
@@ -29,8 +27,7 @@ func isClockWise(gesture leap.Gesture) bool {
 	return clockwise
 }
 
-// isTwoRounds determines if the gesture is two rounds
-func isTwoRounds(gesture leap.Gesture) bool {
-	fmt.Printf("Progress:%v\n", gesture.Progress)
+// IsTwoRounds determines if the gesture is two rounds
+func IsTwoRounds(gesture leap.Gesture) bool {
 	return gesture.Progress > CircleThreshold
 }

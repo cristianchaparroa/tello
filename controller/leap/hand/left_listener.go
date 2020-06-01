@@ -1,8 +1,9 @@
 package hand
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 	"math"
+	"tello/controller/leap/core"
 
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
@@ -10,20 +11,22 @@ import (
 
 // LeftListener is in charge to handle the offets to the left side
 type LeftListener struct {
-	next EventListener
-	c    *tello.Driver
+	next   EventListener
+	c      *tello.Driver
+	logger core.Logger
 }
 
 // NewLeftListener generates a pointer to the LeftListener
 func NewLeftListener(c *tello.Driver) EventListener {
-	return &LeftListener{c: c}
+	logger := core.NewLogger()
+	return &LeftListener{c: c, logger: logger}
 }
 
 // Process is in charge to process the left movement
 func (l *LeftListener) Process(hand leap.Hand) {
 
 	if l.isLeftEvent(hand) {
-		fmt.Println("--> IsLeftMovement")
+		l.logger.ShowHand(hand, "--> IsLeftMovement")
 		l.moveLeft(hand)
 		return
 	}
@@ -42,7 +45,7 @@ func (l *LeftListener) isLeftEvent(hand leap.Hand) bool {
 	xAxis := hand.PalmNormal[0]
 
 	// It verifies if there is a shift in the X axis and if it is up
-	// to the defined treshold.
+	// to the defined threshold.
 	isThreshold := math.Abs(xAxis) > DirectionThreshold
 
 	isUpToZero := xAxis > 0
@@ -53,10 +56,20 @@ func (l *LeftListener) isLeftEvent(hand leap.Hand) bool {
 
 // moveLeft is in charge to calculate the shift and apply it.
 func (l *LeftListener) moveLeft(hand leap.Hand) {
-	xAxis := hand.PalmNormal[0]
-	value := math.Abs(xAxis*10-DirectionThreshold) * DirectionSpeedFactor
-	l.c.Left(int(value))
-	fmt.Printf(" --> Moving left:%v", value)
+
+	xNormal := hand.PalmNormal[0]
+	offset := l.calculateShift(xNormal)
+	l.c.Left(offset)
+
+	log.WithFields(log.Fields{
+		"offset": offset,
+	}).Info("moving_left")
+
+}
+
+func (l *LeftListener) calculateShift(shift float64) int {
+	offset := math.Abs(shift*50+DirectionThreshold) * DirectionSpeedFactor
+	return int(offset)
 }
 
 // SetNext asign the next in the chain of listeners

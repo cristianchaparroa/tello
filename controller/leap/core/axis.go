@@ -1,4 +1,4 @@
-package gesture
+package core
 
 const (
 	// XAxis is the position of a vector to retrieve the position of X

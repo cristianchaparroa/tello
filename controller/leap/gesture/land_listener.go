@@ -2,7 +2,9 @@ package gesture
 
 import (
 	"fmt"
+	"tello/controller/leap/core"
 
+	log "github.com/sirupsen/logrus"
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
 )
@@ -42,9 +44,16 @@ func (l *LandListener) SetNext(next EventListener) {
 
 // IsLandEvent determines if should to land the drone.
 func (l *LandListener) IsLandEvent(gesture leap.Gesture) bool {
-	isCircleGesture := IsCircleGesture(gesture)
-	isCounterClockWise := !isClockWise(gesture)
-	isTwoRounds := isTwoRounds(gesture)
-	fmt.Printf("IsCircle:%v, isCounterCW:%v, isTwoRounds:%v \n", isCircleGesture, isCounterClockWise, isTwoRounds)
+
+	isCircleGesture := core.IsCircleGesture(gesture)
+	isCounterClockWise := !core.IsClockWise(gesture)
+	isTwoRounds := core.IsTwoRounds(gesture)
+
+	log.WithFields(log.Fields{
+		"is_circle":        isCircleGesture,
+		"is_counter_clock": isCounterClockWise,
+		"is_two_rounds":    isTwoRounds,
+	}).Info("is_land_event")
+
 	return isCircleGesture && isCounterClockWise && isTwoRounds
 }
