@@ -14,6 +14,6 @@ const (
 // EventListener set the methods to process
 // different events.
 type EventListener interface {
-	Process(hand leap.Hand)
+	Process(hand leap.Hand) bool
 	SetNext(l EventListener)
 }

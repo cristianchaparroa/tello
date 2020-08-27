@@ -13,24 +13,25 @@ type BackwardListener struct {
 }
 
 // NewBackwardListener generates a pointer to BackwardListener
-func NewBackwardListener(c *tello.Driver) *BackwardListener {
+func NewBackwardListener(c *tello.Driver) EventListener {
 	return &BackwardListener{c: c}
 }
 
 // Process verifies if is backward event and trigger it.
-func (l *BackwardListener) Process(hand leap.Hand) {
+func (l *BackwardListener) Process(hand leap.Hand) bool {
 
 	if l.isBackwardEvent(hand) {
 		l.moveBackward(hand)
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(hand)
+	return l.next.Process(hand)
 }
+
 func (l *BackwardListener) isBackwardEvent(hand leap.Hand) bool {
 	zAxis := hand.PalmNormal[2]
 	isThreshold := math.Abs(zAxis) > DirectionThreshold

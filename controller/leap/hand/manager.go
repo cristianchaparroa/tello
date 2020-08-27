@@ -8,7 +8,7 @@ import (
 // Manager handle the hand triggered by leap motion device
 type Manager interface {
 	// Process handle the gesture triggered by leap motion device
-	Process(h leap.Hand)
+	Process(h leap.Hand) bool
 }
 
 type leapHandManager struct {
@@ -38,6 +38,6 @@ func (l *leapHandManager) build() {
 	l.event = left
 }
 
-func (l *leapHandManager) Process(hand leap.Hand) {
-	l.event.Process(hand)
+func (l *leapHandManager) Process(hand leap.Hand) bool {
+	return l.event.Process(hand)
 }

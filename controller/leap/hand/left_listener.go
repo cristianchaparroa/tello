@@ -23,19 +23,19 @@ func NewLeftListener(c *tello.Driver) EventListener {
 }
 
 // Process is in charge to process the left movement
-func (l *LeftListener) Process(hand leap.Hand) {
+func (l *LeftListener) Process(hand leap.Hand) bool {
 
 	if l.isLeftEvent(hand) {
 		l.logger.ShowHand(hand, "--> IsLeftMovement")
 		l.moveLeft(hand)
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(hand)
+	return l.next.Process(hand)
 
 }
 

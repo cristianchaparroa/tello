@@ -18,24 +18,24 @@ type TakeOffListener struct {
 }
 
 // NewTakeOffListener generates a pointer to TakeOffListener
-func NewTakeOffListener(c *tello.Driver) *TakeOffListener {
+func NewTakeOffListener(c *tello.Driver) EventListener {
 	return &TakeOffListener{c: c}
 }
 
 // Process verifies if is take off event and trigger it.
-func (l *TakeOffListener) Process(gesture leap.Gesture) {
+func (l *TakeOffListener) Process(gesture leap.Gesture) bool {
 
 	if l.IsTakeOffEvent(gesture) {
 		fmt.Println("IsTakeOff")
 		l.c.TakeOff()
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(gesture)
+	return l.next.Process(gesture)
 }
 
 // SetNext saves the next listener in the chain

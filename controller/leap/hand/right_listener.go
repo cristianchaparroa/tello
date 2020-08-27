@@ -24,20 +24,20 @@ func NewRightListener(c *tello.Driver) EventListener {
 }
 
 // Process is in charge to process the right movement
-func (l *RightListener) Process(hand leap.Hand) {
+func (l *RightListener) Process(hand leap.Hand) bool {
 
 	if l.isRightEvent(hand) {
 		fmt.Println("--> IsRightMovement")
 		l.logger.ShowHand(hand)
 		l.moveRight(hand)
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(hand)
+	return l.next.Process(hand)
 }
 
 // isRightEvent determines if the current event is for move the drone to the

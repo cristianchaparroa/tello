@@ -17,24 +17,24 @@ type LandListener struct {
 }
 
 // NewLandListener generates a pointer to LandListener
-func NewLandListener(c *tello.Driver) *LandListener {
+func NewLandListener(c *tello.Driver) EventListener {
 	return &LandListener{c: c}
 }
 
 // Process verifies if is land event and trigger it.
-func (l *LandListener) Process(gesture leap.Gesture) {
+func (l *LandListener) Process(gesture leap.Gesture) bool {
 
 	if l.IsLandEvent(gesture) {
 		fmt.Println("IsLand")
 		l.c.Land()
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(gesture)
+	return l.next.Process(gesture)
 }
 
 // SetNext saves the next listener in the chain

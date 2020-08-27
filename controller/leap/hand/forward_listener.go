@@ -13,23 +13,23 @@ type ForwardListener struct {
 }
 
 // NewForwardListener generates a pointer to ForwardListener
-func NewForwardListener(c *tello.Driver) *ForwardListener {
+func NewForwardListener(c *tello.Driver) EventListener {
 	return &ForwardListener{c: c}
 }
 
 // Process verifies if is forward event and trigger it.
-func (l *ForwardListener) Process(hand leap.Hand) {
+func (l *ForwardListener) Process(hand leap.Hand) bool {
 
 	if l.isForwardEvent(hand) {
 		l.moveForward(hand)
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(hand)
+	return l.next.Process(hand)
 }
 
 // isForwardEvent determines if should move to forward the drone.

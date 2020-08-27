@@ -12,24 +12,24 @@ type RotateLeftListener struct {
 }
 
 // NewTurnLeftListener generates a pointer to RotateLeftListener
-func NewTurnLeftListener(c *tello.Driver) *RotateLeftListener {
+func NewTurnLeftListener(c *tello.Driver) EventListener {
 	return &RotateLeftListener{c: c}
 }
 
 // Process verifies if is forward event and trigger it.
-func (l *RotateLeftListener) Process(hand leap.Hand) {
+func (l *RotateLeftListener) Process(hand leap.Hand) bool {
 
 	if l.IsRotateLeftEvent(hand) {
 		fmt.Println("IsRotateCounterClockwise")
 		l.c.Land()
-		return
+		return true
 	}
 
 	if l.next == nil {
-		return
+		return false
 	}
 
-	l.next.Process(hand)
+	return l.next.Process(hand)
 }
 
 // SetNext saves the next listener in the chain

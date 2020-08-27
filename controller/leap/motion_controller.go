@@ -1,6 +1,7 @@
 package leap
 
 import (
+	"fmt"
 	"tello/controller/leap/core"
 	"tello/controller/leap/gesture"
 	"tello/controller/leap/hand"
@@ -38,18 +39,36 @@ func (c *MotionController) Run() {
 	handManager := hand.NewManager(drone)
 	currentHand := leap.Hand{}
 
+	isProcessed := make(chan bool)
+
 	c.leap.On(leap.GestureEvent, func(data interface{}) {
-		g := data.(leap.Gesture)
-		c.logger.ShowGesture(g)
-		gestureManager.Process(g)
+
+		go func() {
+			g := data.(leap.Gesture)
+			c.logger.ShowGesture(g)
+			gestureManager.Process(g)
+
+			isProcessed <- true
+		}()
+
 	})
 
-	// TODO: if is a gesture is processed it should not execute the
-	// hand event.
 	c.leap.On(leap.HandEvent, func(data interface{}) {
-		currentHand = data.(leap.Hand)
-		c.logger.ShowHand(currentHand)
-		handManager.Process(currentHand)
+
+		go func() {
+
+			isGesture := <-isProcessed
+			if isGesture {
+				fmt.Println("Is gesture before")
+				return
+			}
+
+			isProcessed <- false
+			currentHand = data.(leap.Hand)
+			c.logger.ShowHand(currentHand)
+			handManager.Process(currentHand)
+
+		}()
 	})
 	/*
 		c.leap.On(leap.MessageEvent, func(data interface{}) {
