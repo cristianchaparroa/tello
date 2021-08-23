@@ -1,7 +1,7 @@
 package main
 
 import (
-	"tello/controller"
+	controller "tello/controller/keyboard"
 
 	"gobot.io/x/gobot"
 	tello "gobot.io/x/gobot/platforms/dji/tello"
