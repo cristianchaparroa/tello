@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gobot.io/x/gobot/platforms/dji/tello"
 	"gobot.io/x/gobot/platforms/leap"
+	"time"
 )
 
 // MotionController is in charge to capture the moviments of hands throught
@@ -35,9 +36,13 @@ func (c *MotionController) Run() {
 				fmt.Println("It is a hand")
 			}
 
+			// All the time by default is a message
+			// so it should be careful that is the message required
 			if leap.MessageEvent == eventName {
 				fmt.Println("It is a message")
 			}
+		default:
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 
